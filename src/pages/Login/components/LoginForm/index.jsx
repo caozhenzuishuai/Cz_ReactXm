@@ -14,6 +14,7 @@ import { withRouter } from "react-router-dom";
 import { login, mobileLogin } from "@redux/actions/login";
 import { reqSendCode } from "@api/acl/oauth";
 
+import { CLIENT_ID } from "@conf/oauth";
 import "./index.less";
 
 const { TabPane } = Tabs;
@@ -134,14 +135,14 @@ function LoginForm({ login, mobileLogin, history }) {
       })
       .catch((err) => {});
   };
-
+  const goGithub = () => {
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`;
+  };
   return (
     <Form
       form={form}
       validateMessages={validateMessages}
       initialValues={{ rem: "checked" }}
-      // 注意button按钮的类型必须submit
-      // onFinish={finish} // 问题会校验所有表单。
     >
       <Tabs activeKey={activeKey} onChange={handleTabChange}>
         <TabPane tab="账户密码登录" key="user">
@@ -225,7 +226,7 @@ function LoginForm({ login, mobileLogin, history }) {
           <Form.Item>
             <div className="login-form-icons">
               <span>其他登录方式</span>
-              <GithubOutlined className="icons" />
+              <GithubOutlined className="icons" onClick={goGithub} />
               <WechatOutlined className="icons" />
               <QqOutlined className="icons" />
             </div>
